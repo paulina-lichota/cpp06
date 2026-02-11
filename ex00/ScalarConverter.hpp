@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:24:06 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/09 17:39:04 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/11 15:09:53 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include <string>
 #include <iostream>
+#include <cstdlib>
+#include <limits> // std::numeric_limits<double>::max();
+#include <cmath> // isinf, isnan
 
 class ScalarConverter
 {
@@ -24,10 +27,18 @@ class ScalarConverter
         ScalarConverter& operator=(const ScalarConverter& other);
         ~ScalarConverter();
 
-        bool isChar(const std::string& literal);
-        bool isInt(const std::string& literal);
-        bool isFloat(const std::string& literal);
-        bool isDouble(const std::string& literal);
+        // helpers
+        // statici perche' convert static puo' accedere solo ad altre static
+        // cosi' posso accedere tramite ScalarConverter::method() e non istanziare
+        static bool isChar(const std::string& literal);
+        static bool isInt(const std::string& literal);
+        static bool isFloat(const std::string& literal);
+        static bool isDouble(const std::string& literal);
+
+        static void printChar(const std::string& literal);
+        static void printInt(const std::string& literal);
+        static void printFloat(const std::string& literal);
+        static void printDouble(const std::string& literal);
     public:
         static void convert(const std::string& literal);
 };
