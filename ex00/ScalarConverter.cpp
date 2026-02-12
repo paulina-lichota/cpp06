@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/12 18:45:35 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/12 18:50:10 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ bool ScalarConverter::isInt(const std::string& literal)
             return false;
         i++;
     }
-    // limit overflow
+    std::cout << " per ora true" << std::endl;
+    // limit overflow ----------------------------- NON VA ------------------------------ //
+    
     long int val = strtol(literal.c_str(), NULL, 10);
     long int max = std::numeric_limits<double>::max();
     long int min = std::numeric_limits<double>::min();
@@ -142,12 +144,10 @@ bool ScalarConverter::isDouble(const std::string& literal)
 
 void ScalarConverter::convert(const std::string& literal)
 {
-    std::cout << "literal: " << literal << std::endl;
-
-    std::cout << isChar(literal) << std::endl;
-    std::cout << isInt(literal) << std::endl;
-    std::cout << isFloat(literal) << std::endl;
-    std::cout << isDouble(literal) << std::endl;
+    std::cout << "isChar: " << isChar(literal) << std::endl;
+    std::cout << "isInt: " << isInt(literal) << std::endl;
+    std::cout << "isFloat: " << isFloat(literal) << std::endl;
+    std::cout << "isDouble: " << isDouble(literal) << std::endl;
     
     // printChar(literal);
     // printInt(literal);
