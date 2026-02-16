@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/16 19:22:13 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/16 19:36:38 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,16 @@ bool ScalarConverter::isInt(const std::string& literal)
             return false;
         i++;
     }
-    // check overflow
-    double val = strtod(literal.c_str(), NULL);
-    double max = std::numeric_limits<double>::max();
-    double min = std::numeric_limits<double>::min();
+    // check overflow //---------------------------------- INVALID------------------------------------------------
+    long val = strtol(literal.c_str(), NULL , 10);
+    long max = std::numeric_limits<int>::max();
+    long min = std::numeric_limits<int>::min();
     if (val > max || val < min)
         return false;
     return true;
 }
 
+// -inff, +inff, nanf
 bool ScalarConverter::isFloat(const std::string& literal)
 {
     if (literal.empty())
@@ -85,12 +86,14 @@ bool ScalarConverter::isFloat(const std::string& literal)
     size_t n = temp.find('.');
     if (n == std::string::npos)
         return false;
+    std::cout << "contiene un punto" << std::endl;
     if (!(std::isdigit(temp[n + 1]) || std::isdigit(temp[n - 1])))
         return false;
     // contiene f ed e' alla fine
     size_t f = temp.find('f');
     if (f == std::string::npos || temp[temp.length() - 1] != 'f')
         return false;
+    std::cout << "contiene un f" << std::endl;
     // gli altri sono tutti numeri
     for (size_t i = 0; i < temp.length(); i++)
     {
@@ -105,6 +108,7 @@ bool ScalarConverter::isFloat(const std::string& literal)
     return true;
 }
 
+// -inf, +inf, nan
 // non considero notazione scientifica
 bool ScalarConverter::isDouble(const std::string& literal)
 {
@@ -146,6 +150,11 @@ void ScalarConverter::convert(const std::string& literal)
     std::cout << "isFloat: " << isFloat(literal) << std::endl;
     std::cout << "isDouble: " << isDouble(literal) << std::endl;
     
+    // es 2.3d, nan
+    // se non e' nessuno dei 4 tipi, stampo "impossible" E RISPETTIVI PER TIPO
+    
+    // -inf , impossible char e int, controllo limiti per float e double -inff per float, DIPENDE per double se supera limite
+
     // printChar(literal);
     // printInt(literal);
     // printFloat(literal);
