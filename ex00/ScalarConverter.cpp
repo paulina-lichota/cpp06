@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/12 18:50:10 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/16 19:22:13 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,10 @@ bool ScalarConverter::isInt(const std::string& literal)
             return false;
         i++;
     }
-    std::cout << " per ora true" << std::endl;
-    // limit overflow ----------------------------- NON VA ------------------------------ //
-    
-    long int val = strtol(literal.c_str(), NULL, 10);
-    long int max = std::numeric_limits<double>::max();
-    long int min = std::numeric_limits<double>::min();
-    
+    // check overflow
+    double val = strtod(literal.c_str(), NULL);
+    double max = std::numeric_limits<double>::max();
+    double min = std::numeric_limits<double>::min();
     if (val > max || val < min)
         return false;
     return true;
