@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/16 19:36:38 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/17 12:33:43 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,32 +79,47 @@ bool ScalarConverter::isFloat(const std::string& literal)
     if (literal.empty())
         return false;
     std::string temp = literal;
+
     // can start with + or -
-    if (temp[0] != '+' || temp[0] != '-')
+    if (temp[0] == '+' || temp[0] == '-')
+    {
+        // std::cout << "contiene un segno" << std::endl;
         temp = temp.substr(1);
-    // contiene un punto
-    size_t n = temp.find('.');
-    if (n == std::string::npos)
+    }
+    
+    // contiene un digit
+    bool hasDigit = false;
+    size_t i = 0;
+    while (i < temp.length())
+    {
+        if (std::isdigit(temp[i]))
+        {
+            hasDigit = true;
+            break;
+        }
+        i++;
+    }
+    if (!hasDigit)
         return false;
-    std::cout << "contiene un punto" << std::endl;
-    if (!(std::isdigit(temp[n + 1]) || std::isdigit(temp[n - 1])))
-        return false;
-    // contiene f ed e' alla fine
+    
+    // termina con f
     size_t f = temp.find('f');
     if (f == std::string::npos || temp[temp.length() - 1] != 'f')
-        return false;
-    std::cout << "contiene un f" << std::endl;
-    // gli altri sono tutti numeri
-    for (size_t i = 0; i < temp.length(); i++)
+        return false;    
+    
+    // // contiene un punto
+    size_t n = temp.find('.');
+    if (n == std::string::npos)
+        n = -1;
+
+    // // gli altri sono tutti numeri
+    for (size_t j = 0; j < temp.length(); j++)
     {
-        if (i == n || i == f)
+        if (j == n || j == f)
             continue;
-        else if (!std::isdigit(temp[i]))
+        else if (!std::isdigit(temp[j]))
             return false;
     }
-    // c'e un numero prima o dopo il punto
-    // if ()
-    
     return true;
 }
 
