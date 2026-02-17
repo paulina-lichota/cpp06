@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/17 12:33:43 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/17 15:04:15 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ bool ScalarConverter::isInt(const std::string& literal)
             return false;
         i++;
     }
-    // check overflow //---------------------------------- INVALID------------------------------------------------
+    // check overflow
     long val = strtol(literal.c_str(), NULL , 10);
     long max = std::numeric_limits<int>::max();
     long min = std::numeric_limits<int>::min();
@@ -82,11 +82,8 @@ bool ScalarConverter::isFloat(const std::string& literal)
 
     // can start with + or -
     if (temp[0] == '+' || temp[0] == '-')
-    {
-        // std::cout << "contiene un segno" << std::endl;
         temp = temp.substr(1);
-    }
-    
+
     // contiene un digit
     bool hasDigit = false;
     size_t i = 0;
@@ -120,6 +117,15 @@ bool ScalarConverter::isFloat(const std::string& literal)
         else if (!std::isdigit(temp[j]))
             return false;
     }
+    
+    // check overflow - min e' il valore positivo normalizzato piu' piccolo, non il valore negativo
+    // ovvero il valore piu' piccolo rappresentabile senza perdere precisione
+    double val = strtod(literal.c_str(), NULL);
+    double max = std::numeric_limits<float>::max();
+    double min = -std::numeric_limits<float>::max();
+    
+    if (val > max || val < min)
+        return false;
     return true;
 }
 
