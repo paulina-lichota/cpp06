@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/17 19:32:09 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/17 19:32:49 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,9 +163,8 @@ void ScalarConverter::printChar(const std::string& literal)
         return;
     } else 
     {
-        std::cout << "char: " << std::endl;
         char a = static_cast<char>(literal[0]);
-        std::cout << a << std::endl;
+        std::cout << "char: " << a << std::endl;
     }
 }
 
