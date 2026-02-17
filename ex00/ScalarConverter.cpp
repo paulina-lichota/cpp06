@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/17 19:28:43 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/17 19:32:09 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,10 +155,19 @@ bool ScalarConverter::isDouble(const std::string& literal)
 
 // ------------------------------ Print type ------------------------------ //
 
-// void ScalarConverter::printChar(const std::string& literal)
-// {
-    
-// }
+void ScalarConverter::printChar(const std::string& literal)
+{
+    if (!isChar(literal))
+    {
+        std::cout << "char: impossible" << std::endl;
+        return;
+    } else 
+    {
+        std::cout << "char: " << std::endl;
+        char a = static_cast<char>(literal[0]);
+        std::cout << a << std::endl;
+    }
+}
 
 // void ScalarConverter::printInt(const std::string& literal)
 // {
@@ -180,7 +189,7 @@ bool ScalarConverter::isDouble(const std::string& literal)
 
 void ScalarConverter::convert(const std::string& literal)
 {
-    std::cout << "isChar: " << isChar(literal) << std::endl;
+    // std::cout << "isChar: " << isChar(literal) << std::endl;
     std::cout << "isInt: " << isInt(literal) << std::endl;
     std::cout << "isFloat: " << isFloat(literal) << std::endl;
     std::cout << "isDouble: " << isDouble(literal) << std::endl;
@@ -190,7 +199,7 @@ void ScalarConverter::convert(const std::string& literal)
     
     // -inf , impossible char e int, controllo limiti per float e double -inff per float, DIPENDE per double se supera limite
 
-    // printChar(literal);
+    printChar(literal);
     // printInt(literal);
     // printFloat(literal);
     // printDouble(literal);
