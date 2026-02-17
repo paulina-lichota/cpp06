@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/17 15:04:15 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/17 19:28:43 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ bool ScalarConverter::isFloat(const std::string& literal)
     double val = strtod(literal.c_str(), NULL);
     double max = std::numeric_limits<float>::max();
     double min = -std::numeric_limits<float>::max();
-    
+
     if (val > max || val < min)
         return false;
     return true;
@@ -135,7 +135,21 @@ bool ScalarConverter::isDouble(const std::string& literal)
 {
     if (literal.empty())
         return false;
-    
+    std::string temp = literal;
+    if (temp[0] == '+' || temp[0] == '-')
+        temp = temp.substr(1);
+    // // contiene un punto
+    size_t n = temp.find('.');
+    if (n == std::string::npos)
+        return false;
+    // // gli altri sono tutti numeri
+    for (size_t j = 0; j < temp.length(); j++)
+    {
+        if (j == n)
+            continue;
+        else if (!std::isdigit(temp[j]))
+            return false;
+    }
     return true;
 }
 
