@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/18 13:04:37 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/18 13:12:04 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void ScalarConverter::printChar(const std::string& literal)
     std::cout << "char: '" << a << "'" << std::endl;
     std::cout << "int: " << static_cast<int>(a) << std::endl;
     std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(a) << "f" << std::endl;
-    std::cout << "double: " << static_cast<double>(a) << std::endl;
+    std::cout << "double: " << std::fixed << std::setprecision(1) << static_cast<double>(a) << std::endl;
 }
 
 void ScalarConverter::printInt(const std::string& literal)
@@ -183,7 +183,7 @@ void ScalarConverter::printInt(const std::string& literal)
         std::cout << "char: impossible" << std::endl;
     std::cout << "int: " << a << std::endl;
     std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(a) << "f" << std::endl;
-    std::cout << "double: " << static_cast<double>(a) << std::endl;
+    std::cout << "double: " << std::fixed << std::setprecision(1) << static_cast<double>(a) << std::endl;
 }
 
 // il cast a float tronca il valore e converte a char, se va in overflow fa il wrap-around
@@ -192,15 +192,15 @@ void ScalarConverter::printFloat(const std::string& literal)
     float a = static_cast<float>(strtod(literal.c_str(), NULL));
     char c = static_cast<char>(a);
 
-    if (c < 0 || c > 127)
+    if (a < 0 || a > 127)
         std::cout << "char: impossible" << std::endl;
-    else if (!std::isprint(c))
+    else if (!std::isprint(a))
         std::cout << "char: Non displayable" << std::endl;
     else
         std::cout << "char: '" << c << "'" << std::endl;
     std::cout << "int: " << static_cast<int>(a) << std::endl;
     std::cout << "float: " << std::fixed << std::setprecision(1) << a << "f" << std::endl;
-    std::cout << "double: " << static_cast<double>(a) << std::endl;
+    std::cout << "double: " << std::fixed << std::setprecision(1) << static_cast<double>(a) << std::endl;
 }
 
 void ScalarConverter::printDouble(const std::string& literal)
@@ -208,15 +208,15 @@ void ScalarConverter::printDouble(const std::string& literal)
     double a = static_cast<double>(strtod(literal.c_str(), NULL));
 
     char c = static_cast<char>(a);
-    if (c < 0 || c > 127)
+    if (a < 0 || a > 127)
         std::cout << "char: impossible" << std::endl;
-    else if (!std::isprint(c))
+    else if (!std::isprint(a))
         std::cout << "char: Non displayable" << std::endl;
     else
         std::cout << "char: '" << c << "'" << std::endl;
     std::cout << "int: " << static_cast<int>(a) << std::endl;
     std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(a) << "f" << std::endl;
-    std::cout << "double: " << a << std::endl;
+    std::cout << "double: " << std::fixed << std::setprecision(1) << a << std::endl;
 }
 
 // ------------------------------ Get type ------------------------------ //
