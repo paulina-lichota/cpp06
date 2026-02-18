@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/18 13:12:04 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/18 15:44:51 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ bool ScalarConverter::isFloat(const std::string& literal)
     // termina con f
     size_t f = temp.find('f');
     if (f == std::string::npos || temp[temp.length() - 1] != 'f')
-        return false;    
+        return false;
     
     // // contiene un punto
     size_t n = temp.find('.');
@@ -121,14 +121,22 @@ bool ScalarConverter::isFloat(const std::string& literal)
         else if (!std::isdigit(temp[j]))
             return false;
     }
-    
+
     // check overflow - min e' il valore positivo normalizzato piu' piccolo, non il valore negativo
     // ovvero il valore piu' piccolo rappresentabile senza perdere precisione
     double val = strtod(literal.c_str(), NULL);
-    double max = std::numeric_limits<float>::max();
-    double min = -std::numeric_limits<float>::max();
+    float fl = static_cast<float>(val);
+    // double ret = static_cast<double>(fl);
+    if (std::isinf(val) || std::isnan(val))
+        return false; 
+    if (val > std::numeric_limits<float>::max() || val < -std::numeric_limits<float>::max())
+        return false;
 
-    if (val > max || val < min)
+    // Il cast a float restituisce:
+    // Valori troppo grandi → +inf
+    // Valori troppo piccoli → -inf
+    // Valori non validi → nan
+    if (std::isinf(fl) || std::isnan(fl))
         return false;
     return true;
 }
@@ -198,7 +206,12 @@ void ScalarConverter::printFloat(const std::string& literal)
         std::cout << "char: Non displayable" << std::endl;
     else
         std::cout << "char: '" << c << "'" << std::endl;
-    std::cout << "int: " << static_cast<int>(a) << std::endl;
+    if (std::isnan(a) || std::isinf(a) ||
+        a < static_cast<double>(std::numeric_limits<int>::min()) ||
+        a > static_cast<double>(std::numeric_limits<int>::max()))
+        std::cout << "int: impossible" << std::endl;
+    else
+        std::cout << "int: " << static_cast<int>(a) << std::endl;
     std::cout << "float: " << std::fixed << std::setprecision(1) << a << "f" << std::endl;
     std::cout << "double: " << std::fixed << std::setprecision(1) << static_cast<double>(a) << std::endl;
 }
@@ -239,17 +252,6 @@ int ScalarConverter::getType(const std::string& literal)
 
 void ScalarConverter::convert(const std::string& literal)
 {
-    // std::cout << "isChar: " << isChar(literal) << std::endl;
-    // std::cout << "isInt: " << isInt(literal) << std::endl;
-    // std::cout << "isFloat: " << isFloat(literal) << std::endl;
-    // std::cout << "isDouble: " << isDouble(literal) << std::endl;
-    
-
-    // static cast da char a float
-    
-
-
-    
     int type = getType(literal);
     std::cout << "type: " << type << std::endl;
     
@@ -275,9 +277,4 @@ void ScalarConverter::convert(const std::string& literal)
     // se non e' nessuno dei 4 tipi, stampo "impossible" E RISPETTIVI PER TIPO
     
     // -inf , impossible char e int, controllo limiti per float e double -inff per float, DIPENDE per double se supera limite
-
-    // printChar(literal);
-    // printInt(literal);
-    // printFloat(literal);
-    // printDouble(literal);
 }
