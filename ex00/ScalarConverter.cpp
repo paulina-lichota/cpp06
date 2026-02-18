@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/17 19:32:49 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/18 12:54:46 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,18 @@ ScalarConverter::~ScalarConverter()
 
 // ------------------------------ Check type ------------------------------ //
 
+
+// to do gestire "'0'" e "0" ?
+// prende solo valori ASCII
 bool ScalarConverter::isChar(const std::string& literal)
 {
-    if (literal.empty())
+    if (literal.length() != 1)
         return false;
-    if (literal.length() == 1 && !std::isdigit(literal[0])
-            && std::isprint(literal[0]))
-        return true;
-    return false;
+    if (literal[0] < 0 || literal[0] > 127)
+        return false;
+    if (!std::isprint(literal[0]))
+        return false;
+    return true;
 }
 
 bool ScalarConverter::isInt(const std::string& literal)
@@ -157,48 +161,109 @@ bool ScalarConverter::isDouble(const std::string& literal)
 
 void ScalarConverter::printChar(const std::string& literal)
 {
-    if (!isChar(literal))
+    char a = static_cast<char>(literal[0]);
+    std::cout << "char: '" << a << "'" << std::endl;
+    std::cout << "int: " << static_cast<int>(a) << std::endl;
+    std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(a) << "f" << std::endl;
+    std::cout << "double: " << static_cast<double>(a) << std::endl;
+}
+
+void ScalarConverter::printInt(const std::string& literal)
+{
+    long a = static_cast<int>(strtol(literal.c_str(), NULL , 10));
+    
+    if (a >= 0 && a <= 127)
     {
+        if (std::isprint(a)) 
+            std::cout << "char: '" << static_cast<char>(a) << "'" << std::endl;
+        else
+            std::cout << "char: Non displayable" << std::endl;
+    }
+    else 
         std::cout << "char: impossible" << std::endl;
+    std::cout << "int: " << a << std::endl;
+    std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(a) << "f" << std::endl;
+    std::cout << "double: " << static_cast<double>(a) << std::endl;
+}
+
+void ScalarConverter::printFloat(const std::string& literal)
+{
+    if (!isFloat(literal))
+    {
+        std::cout << "float: impossible" << std::endl;
         return;
     } else 
     {
-        char a = static_cast<char>(literal[0]);
-        std::cout << "char: " << a << std::endl;
+        float a = static_cast<float>(strtod(literal.c_str(), NULL));
+        std::cout << "float: " << a << "f" << std::endl;
     }
 }
 
-// void ScalarConverter::printInt(const std::string& literal)
-// {
-    
-// }
+void ScalarConverter::printDouble(const std::string& literal)
+{
+    if (!isDouble(literal))
+    {
+        std::cout << "double: impossible" << std::endl;
+        return;
+    } else 
+    {
+        double a = static_cast<double>(strtod(literal.c_str(), NULL));
+        std::cout << "double: " << a << std::endl;
+    }
+}
 
-// void ScalarConverter::printFloat(const std::string& literal)
-// {
-    
-// }
+// ------------------------------ Get type ------------------------------ //
 
-
-// void ScalarConverter::printDouble(const std::string& literal)
-// {
-    
-// }
+int ScalarConverter::getType(const std::string& literal)
+{
+    if (isInt(literal)) // metto prima int perche' alcuni caratteri sono anche numeri, es '0' e '1'
+        return 0;
+    if (isChar(literal))
+        return 1;
+    else if (isFloat(literal))
+        return 2;
+    else if (isDouble(literal))
+        return 3;
+    else
+        return -1;
+}
 
 // ------------------------------ Convert ------------------------------ //
 
 void ScalarConverter::convert(const std::string& literal)
 {
     // std::cout << "isChar: " << isChar(literal) << std::endl;
-    std::cout << "isInt: " << isInt(literal) << std::endl;
-    std::cout << "isFloat: " << isFloat(literal) << std::endl;
-    std::cout << "isDouble: " << isDouble(literal) << std::endl;
+    // std::cout << "isInt: " << isInt(literal) << std::endl;
+    // std::cout << "isFloat: " << isFloat(literal) << std::endl;
+    // std::cout << "isDouble: " << isDouble(literal) << std::endl;
     
+    int type = getType(literal);
+    std::cout << "type: " << type << std::endl;
+    
+    void (*print[]) (const std::string&) =
+    {
+        printInt,
+        printChar,
+        printFloat,
+        printDouble
+    };
+    
+    if (type == -1)
+    {
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: impossible" << std::endl;
+        std::cout << "double: impossible" << std::endl;
+        return;
+    }
+    else
+        print[type](literal);
     // es 2.3d, nan
     // se non e' nessuno dei 4 tipi, stampo "impossible" E RISPETTIVI PER TIPO
     
     // -inf , impossible char e int, controllo limiti per float e double -inff per float, DIPENDE per double se supera limite
 
-    printChar(literal);
+    // printChar(literal);
     // printInt(literal);
     // printFloat(literal);
     // printDouble(literal);
