@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/18 15:44:51 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/20 20:03:08 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,17 +126,25 @@ bool ScalarConverter::isFloat(const std::string& literal)
     // ovvero il valore piu' piccolo rappresentabile senza perdere precisione
     double val = strtod(literal.c_str(), NULL);
     float fl = static_cast<float>(val);
-    // double ret = static_cast<double>(fl);
-    if (std::isinf(val) || std::isnan(val))
-        return false; 
-    if (val > std::numeric_limits<float>::max() || val < -std::numeric_limits<float>::max())
-        return false;
+    double back = static_cast<double>(fl);
 
     // Il cast a float restituisce:
     // Valori troppo grandi → +inf
     // Valori troppo piccoli → -inf
     // Valori non validi → nan
+    if (std::isinf(val) || std::isnan(val))
+        return false; 
+    if (val > std::numeric_limits<float>::max() || val < -std::numeric_limits<float>::max())
+        return false;
     if (std::isinf(fl) || std::isnan(fl))
+        return false;
+    // Per interi grandi, controlla se val è intero e se val == back
+    if (std::floor(val) == val && val != back)
+        return false;
+
+    // controllo precisione persa
+    double tolerance = std::pow(10, -std::numeric_limits<float>::digits10);
+    if (std::fabs(val - back) > tolerance * std::fabs(val))
         return false;
     return true;
 }
@@ -254,7 +262,7 @@ void ScalarConverter::convert(const std::string& literal)
 {
     int type = getType(literal);
     std::cout << "type: " << type << std::endl;
-    
+
     void (*print[]) (const std::string&) =
     {
         printInt,
@@ -262,7 +270,7 @@ void ScalarConverter::convert(const std::string& literal)
         printFloat,
         printDouble
     };
-    
+
     if (type == -1)
     {
         std::cout << "char: impossible" << std::endl;
