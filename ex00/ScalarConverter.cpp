@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/21 20:06:29 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/21 20:16:41 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,11 @@ bool ScalarConverter::isFloat(const std::string& literal)
         return false;
     std::string temp = literal;
     
+    if (literal == "nanf" || literal == "+inff" || literal == "-inff" || literal == "inff")
+        return true;
     // can start with + or -
     if (temp[0] == '+' || temp[0] == '-')
         temp = temp.substr(1);
-
     // contiene un digit
     bool hasDigit = false;
     size_t i = 0;
@@ -157,6 +158,8 @@ bool ScalarConverter::isDouble(const std::string& literal)
     if (literal.empty())
         return false;
     std::string temp = literal;
+    if (literal == "nan" || literal == "+inf" || literal == "-inf" || literal == "inf")
+        return true;
     if (temp[0] == '+' || temp[0] == '-')
         temp = temp.substr(1);
     // contiene un punto
@@ -206,9 +209,16 @@ void ScalarConverter::printInt(const std::string& literal)
 // il cast a float tronca il valore e converte a char, se va in overflow fa il wrap-around
 void ScalarConverter::printFloat(const std::string& literal)
 {
+    if (literal == "nanf" || literal == "+inff" || literal == "-inff" || literal == "inff")
+    {
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: " << literal << std::endl;
+        std::cout << "double: " << literal.substr(0, literal.length() - 1) << std::endl;
+        return;
+    }
     float a = static_cast<float>(strtod(literal.c_str(), NULL));
     char c = static_cast<char>(a);
-
     if (a < 0 || a > 127)
         std::cout << "char: impossible" << std::endl;
     else if (!std::isprint(a))
@@ -227,8 +237,15 @@ void ScalarConverter::printFloat(const std::string& literal)
 
 void ScalarConverter::printDouble(const std::string& literal)
 {
+    if (literal == "nan" || literal == "+inf" || literal == "-inf" || literal == "inf")
+    {
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: " << literal << "f" << std::endl;
+        std::cout << "double: " << literal << std::endl;
+        return;
+    }
     double a = static_cast<double>(strtod(literal.c_str(), NULL));
-
     char c = static_cast<char>(a);
     if (a < 0 || a > 127)
         std::cout << "char: impossible" << std::endl;
