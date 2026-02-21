@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/20 20:03:08 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/21 20:06:29 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ bool ScalarConverter::isFloat(const std::string& literal)
     if (literal.empty())
         return false;
     std::string temp = literal;
-
+    
     // can start with + or -
     if (temp[0] == '+' || temp[0] == '-')
         temp = temp.substr(1);
@@ -134,6 +134,8 @@ bool ScalarConverter::isFloat(const std::string& literal)
     // Valori non validi → nan
     if (std::isinf(val) || std::isnan(val))
         return false; 
+    // 3.4028235×10^38 massimo valore rappresentabile da float con meno precisione
+    // 16.777.216 (2^24) valore massimo intero rappresentabile senza perdere precisione
     if (val > std::numeric_limits<float>::max() || val < -std::numeric_limits<float>::max())
         return false;
     if (std::isinf(fl) || std::isnan(fl))
@@ -141,7 +143,6 @@ bool ScalarConverter::isFloat(const std::string& literal)
     // Per interi grandi, controlla se val è intero e se val == back
     if (std::floor(val) == val && val != back)
         return false;
-
     // controllo precisione persa
     double tolerance = std::pow(10, -std::numeric_limits<float>::digits10);
     if (std::fabs(val - back) > tolerance * std::fabs(val))
@@ -158,11 +159,11 @@ bool ScalarConverter::isDouble(const std::string& literal)
     std::string temp = literal;
     if (temp[0] == '+' || temp[0] == '-')
         temp = temp.substr(1);
-    // // contiene un punto
+    // contiene un punto
     size_t n = temp.find('.');
     if (n == std::string::npos)
         return false;
-    // // gli altri sono tutti numeri
+    // gli altri sono tutti numeri
     for (size_t j = 0; j < temp.length(); j++)
     {
         if (j == n)
@@ -235,8 +236,17 @@ void ScalarConverter::printDouble(const std::string& literal)
         std::cout << "char: Non displayable" << std::endl;
     else
         std::cout << "char: '" << c << "'" << std::endl;
-    std::cout << "int: " << static_cast<int>(a) << std::endl;
-    std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(a) << "f" << std::endl;
+    if (std::fabs(a) > std::numeric_limits<int>::max()
+        || std::fabs(a) < std::numeric_limits<int>::min())
+        std::cout << "int: impossible" << std::endl;
+    else
+        std::cout << "int: " << static_cast<int>(a) << std::endl;
+    if (std::fabs(a) > std::numeric_limits<float>::max()
+        || (std::fabs(a) < std::numeric_limits<float>::min() && a != 0))
+        std::cout << "float: impossible" << std::endl;
+    else
+        std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(a) << "f" << std::endl;
+    // Il tipo double ha circa 15-17 cifre decimali significative
     std::cout << "double: " << std::fixed << std::setprecision(1) << a << std::endl;
 }
 
