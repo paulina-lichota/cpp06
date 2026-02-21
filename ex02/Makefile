@@ -4,10 +4,7 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -Wshadow -std=c++98
 
 SRC = main.cpp \
-	  Base.cpp \
-	  A.cpp \
-	  B.cpp \
-	  C.cpp
+	  Base.cpp
 
 all: $(NAME)
 
