@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 20:22:07 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/21 20:35:07 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/21 20:38:09 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SERIALIZER_HPP
 
 #include "data.hpp"
+#include <iostream>
 
 class Serializer
 {

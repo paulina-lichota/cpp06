@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 20:21:55 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/21 20:35:08 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/21 20:39:15 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,3 +24,17 @@ Serializer &Serializer::operator=(const Serializer &other)
     return *this;
 }
 Serializer::~Serializer() {};
+
+
+uintptr_t Serializer::serialize(Data* ptr)
+{
+    // uintptr_t p = static_cast<uintptr_t>ptr;
+    std::cout << ptr << std::endl;
+
+    return ptr;
+}
+
+Data* Serializer::deserialize(uintptr_t raw)
+{
+    
+}
