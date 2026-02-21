@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 20:22:07 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/21 20:38:09 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/21 21:27:39 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "data.hpp"
 #include <iostream>
+#include <stdint.h> // cstdint  for c++11
 
 class Serializer
 {
