@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 20:21:22 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/21 21:46:04 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/21 21:59:25 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,25 @@
 int main()
 {
     // {
-    //     // error not instantiable
+    //     // error (not instantiable)
     //     Serializer();
     // }
-    Data *data_ptr = new Data;
+
+    // Data *data_ptr = new Data;
+    // if (data_ptr == NULL)
+    // {
+    //     std::cout << "Allocation failed!" << std::endl;
+    //     return 1;
+    // }
+    Data *data_ptr = NULL;
+    try {
+        data_ptr = new Data;
+        // throw std::bad_alloc(); // test exception
+    } catch (std::bad_alloc& e) {
+        std::cout << MAGENTA << "Allocation failed: " << e.what() << RESET << std::endl;
+        return 1;
+    }
+
     data_ptr->i = 1;
     data_ptr->text = "ciao";
 
@@ -31,7 +46,7 @@ int main()
     // Use serialize() on the address of the Data object
     uintptr_t ptr_ser = Serializer::serialize(data_ptr);
     std::cout << GREEN << "Serialized address: " << ptr_ser << RESET << std::endl;
-    
+
     // pass its return value to deserialize().
     // Then, ensure the return value of deserialize() compares equal to the
     // original pointer.
