@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 20:21:55 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/21 21:37:14 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/21 21:40:22 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,13 @@ uintptr_t Serializer::serialize(Data* ptr)
     return p;
 }
 
+
+// se un intero non e' valido si ottiene undefined behaviour
+// ma non c'e' modo di sapere se il valore e' valido
 Data* Serializer::deserialize(uintptr_t raw)
 {
-    if (raw == 0 || raw == (uintptr_t)-1)
+    // NULL o errore
+    if (raw == (uintptr_t)0 || raw == (uintptr_t)-1)
     {
         std::cout << "invalid raw" << std::endl;
         return (NULL);
