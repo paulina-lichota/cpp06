@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 22:06:28 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/21 22:32:40 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/21 22:53:14 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,18 @@ int main ()
     Base *p = generate();
     Base *q = generate();
     Base *r = generate();
-    std::cout << "p: " << p << std::endl;
-    std::cout << "q: " << q << std::endl;
-    std::cout << "r: " << r << std::endl;
+    std::cout << "Identify p: " << std::endl;
+    identify(p);
+    identify(*p);
+    
+    std::cout << "Identify q: " << std::endl;
+    identify(q);
+    identify(*q);
+    
+    std::cout << "Identify r: " << std::endl;
+    identify(r);
+    identify(*r);
+    
     delete p;
     delete q;
     delete r;
