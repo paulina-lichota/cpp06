@@ -6,7 +6,7 @@
 /*   By: plichota <plichota@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 17:26:18 by plichota          #+#    #+#             */
-/*   Updated: 2026/02/21 20:16:41 by plichota         ###   ########.fr       */
+/*   Updated: 2026/02/21 20:18:36 by plichota         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,7 @@ int ScalarConverter::getType(const std::string& literal)
 void ScalarConverter::convert(const std::string& literal)
 {
     int type = getType(literal);
-    std::cout << "type: " << type << std::endl;
+    // std::cout << "type: " << type << std::endl;
 
     void (*print[]) (const std::string&) =
     {
